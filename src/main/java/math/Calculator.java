@@ -2,53 +2,70 @@ package math;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Calculator {
 
-    public Calculator(){
+    private final List<Operation> oH;
 
+    public Calculator(){
+        oH = new ArrayList<>();
     }
 
-    public int subtract(@NotNull int... numbers){
-        int neu = 0;
-        for(int i : numbers){
-            neu -= i;
-        }
+    public List<Operation> getOperationHistory() {
+        return oH;
+    }
+
+    public double subtract(@NotNull double previous, double next){
+        double neu = previous;
+        neu -= next;
+        getOperationHistory().add(new Operation(previous, OperationType.SUBTRACT, neu));
         return neu;
     }
 
-    public int multiply(@NotNull int... numbers){
-        int neu = 0;
-        for(int i : numbers){
+    public double multiply(@NotNull double base, double... numbers){
+        double neu = base;
+        for(double i : numbers){
             neu *= i;
         }
+        getOperationHistory().add(new Operation(base, OperationType.MULTIPLY, neu));
         return neu;
     }
 
-    public int divide(@NotNull int... numbers){
-        int neu = 0;
-        for(int i : numbers){
+    public double divide(@NotNull double base, double... numbers){
+        int neu = 1;
+        for(double i : numbers){
             neu /= i;
         }
+        getOperationHistory().add(new Operation(base, OperationType.MULTIPLY, neu));
         return neu;
     }
 
     public double power(@NotNull double number, double power){
-        return Math.pow(number, power);
+        double pow = Math.pow(number, power);;
+        getOperationHistory().add(new Operation(number, OperationType.POWER, pow));
+        return pow;
     }
 
     public double squareRoot(double number){
-        return Math.sqrt(number);
+        double sqrt = Math.sqrt(number);
+        getOperationHistory().add(new Operation(number, OperationType.SQUARE_ROOT, sqrt));
+        return sqrt;
     }
 
     public double cubicRoot(double number){
-        return Math.cbrt(number);
+        double cbrt = Math.cbrt(number);
+        getOperationHistory().add(new Operation(number, OperationType.CUBIC_ROOT, cbrt));
+        return cbrt;
     }
 
-    public int add(@NotNull int... numbers){
-        int neu = 0;
-        for(int i : numbers){
+    public double add(@NotNull double base, double... numbers){
+        double neu = base;
+        for(double i : numbers){
             neu += i;
         }
+        getOperationHistory().add(new Operation(base, OperationType.SUM, neu));
         return neu;
     }
 
